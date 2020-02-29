@@ -1,0 +1,19 @@
+* {
+  box-sizing: border-box
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.login-form {
+  max-width: 350px;
+  margin: auto!important;
+}
+.login-form-forgot {
+  float: right;
+}
+.login-form-button {
+  width: 100%;
+}
