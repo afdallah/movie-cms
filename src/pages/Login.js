@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Form, Icon, Input, Button, Checkbox, Typography, message } from "antd";
 import axios from "axios";
 const env = process.env.NODE_ENV || 'production';

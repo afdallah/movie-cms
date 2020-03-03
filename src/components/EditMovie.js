@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import { useHistory } from 'react-router-dom'
 import jwtDecode from "jwt-decode";
 import {
   Drawer,
@@ -42,17 +43,18 @@ const genres = [
   "War"
 ];
 
-const children = [];
-genres.map(genre => {
-  children.push(<Option key={genre}>{genre}</Option>);
-});
-
 const DrawerForm = ({ title, placement, onClose, visible, form, data, toggleVisible }) => {
-  const { getFieldDecorator, getFieldsValue, validateFields } = form;
 
   const [movieDetails, setMovieDetails] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { getFieldDecorator, getFieldsValue, validateFields } = form;
+  const history = useHistory()
+
+  const children = [];
+  genres.map(genre => {
+    return children.push(<Option key={genre}>{genre}</Option>);
+  });
 
   useEffect(() => {
     setIsLoading(true);
@@ -85,7 +87,7 @@ const DrawerForm = ({ title, placement, onClose, visible, form, data, toggleVisi
 
     const { title, trailer, synopsis, genres } = getFieldsValue();
     try {
-      const res = await axios({
+      await axios({
         url: `${BASE_URL}/movies`,
         method: "post",
         headers: {
@@ -109,6 +111,12 @@ const DrawerForm = ({ title, placement, onClose, visible, form, data, toggleVisi
       }, 1000)
     } catch (err) {
       if (err.response) {
+        if (err.response.data.message.name === "TokenExpiredError") {
+          localStorage.removeItem('access_token')
+          message.error(err.response.data.message.name)
+          return history.push('/login')
+        }
+
         message.error(err.response.data.message)
       }
 
@@ -124,8 +132,7 @@ const DrawerForm = ({ title, placement, onClose, visible, form, data, toggleVisi
       onClose={onClose}
       visible={visible}
       bodyStyle={{ paddingBottom: 80 }}
-    >
-      {isLoading ? (
+    > {isLoading ? (
         <div style={{ textAlign: 'center' }}>
           <Spin indicator={<Icon type="loading" style={{ fontSize: 24 }} spin />} />
         </div>
@@ -135,7 +142,7 @@ const DrawerForm = ({ title, placement, onClose, visible, form, data, toggleVisi
             <Col span={12}>
               {getFieldDecorator("user_id", {
                 rules: [
-                  { required: true, message: "Please choose the dateTime" }
+                  { required: true, message: "Can not find the user" }
                 ],
                 initialValue: user && user._id
               })(

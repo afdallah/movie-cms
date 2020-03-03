@@ -62,9 +62,9 @@ function MainLayout({ children, history }) {
             isAuthenticated ?
               (
                 <Dropdown overlay={menu}>
-                  <a className="ant-dropdown-link" style={{ marginRight: '2em' }}>
+                  <div className="ant-dropdown-link" style={{ marginRight: '2em' }}>
                     {user.name} <Icon type="down" />
-                  </a>
+                  </div>
                 </Dropdown>
               ) : ''
           }
