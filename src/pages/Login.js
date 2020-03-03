@@ -27,7 +27,7 @@ const NormalLoginForm = ({ form, history, isAuthenticated }) => {
         const token = res.data.data.token;
         localStorage.setItem("access_token", token);
         localStorage.setItem("user", JSON.stringify(res.data.data));
-        message.success(`Successfully login, Welcome ${res.data.data.name}`)
+        message.success(`Successfully login, Welcome ${res.data.data.first_name}`)
         history.push("/");
       })
       .catch(err => {

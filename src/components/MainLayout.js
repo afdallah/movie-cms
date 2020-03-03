@@ -63,7 +63,7 @@ function MainLayout({ children, history }) {
               (
                 <Dropdown overlay={menu}>
                   <div className="ant-dropdown-link" style={{ marginRight: '2em' }}>
-                    {user.name} <Icon type="down" />
+                    {user.first_name} <Icon type="down" />
                   </div>
                 </Dropdown>
               ) : ''
