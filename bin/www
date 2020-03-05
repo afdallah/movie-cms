@@ -1,0 +1,17 @@
+#!/user/bin/env node
+
+const express = require('express')
+const app = express()
+const path = require('path')
+const port = process.env.PORT || 8000
+
+const build = path.resolve(__dirname, '..', 'build')
+const index = path.resolve(build, 'index.html')
+
+app.use(express.static('build'))
+
+app.all('/*', (req, res) => {
+  res.sendFile(index)
+})
+
+app.listen(port, () => console.log(`Listening on port ${port}`))
